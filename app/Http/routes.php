@@ -11,4 +11,14 @@
 |
 */
 
-Route::get('/', 'SignUpController@index');
+Route::get('/', 'PagesController@index');
+
+Route::get('/pages', [
+    'as' => 'pages.index',
+    'uses' => 'PagesController@index'
+]);
+
+get('/login', [
+	'as' => 'users.login',
+	'uses' => 'UsersController@login'
+	]);
