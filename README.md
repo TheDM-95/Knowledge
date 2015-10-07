@@ -1,3 +1,2 @@
-# TestKnowledge
-Group 7 - SE2015 
 # Knowledge
+Group 7 - SE2015 
