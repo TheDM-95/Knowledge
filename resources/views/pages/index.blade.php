@@ -4,12 +4,46 @@
 @stop
 
 
-@section("head.style")
+@section("head.style")	
+    <script src="js/materialize.min.js"></script>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 @stop
 
 @section("body.content")
+
 	<div id="content">
 	    <div class="row">
+	    	@for($i=1; $i<4; $i++)
+
+		        <div class="col l4 m6 s12">
+		        	<div class="row">
+			        	@foreach($categories as $cat)
+
+			        		@if ($cat->cat_position == $i)
+				                <div class="col l6 m12 s12">
+				                    <div class="card shorter-box">
+				                        <div class="card-image waves-effect waves-block waves-light">
+				                            <img class="activator" src="{{$cat->img_url}}">
+				                        </div>
+				                        <div class="card-content red">
+				                            <p><a href="http://google.com">
+				                                <span class="card-title">{{ $cat->cat_name }}<i class="fa fa-arrow-circle-right right"></i></span>
+				                            </a></p>
+				                        </div>
+				                        <div class="card-reveal">
+				                            <span class="card-title grey-text text-darken-4">{{ $cat->cat_name }}</span>
+
+				                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+				                        </div>
+				                    </div>
+				                </div>
+				            @endif
+				        @endforeach
+			        </div>
+		        </div>
+	    	@endfor
+
 	        <div class="col l4 m6 s12">
 	            <div class="row">
 	                <div class="col l6 m12 s12">
@@ -141,7 +175,7 @@
 	                            <img class="activator" src="images/leaderboard.jpg">
 	                        </div>
 	                        <div class="card-content yellow">
-	                            <p><a href="http://google.com">
+	                            <p><a href="{{ route('pages.leaderboard') }}">
 	                                <span class="card-title">Leaderboard<i class="fa fa-arrow-circle-right right"></i></span>
 	                            </a></p>
 	                        </div>

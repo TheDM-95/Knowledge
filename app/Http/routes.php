@@ -18,7 +18,13 @@ Route::get('/pages', [
     'uses' => 'PagesController@index'
 ]);
 
+get('/leaderboard', [
+	'as' => 'pages.leaderboard',
+	'uses' => 'PagesController@leaderboard'
+	]);
+
 get('/login', [
 	'as' => 'users.login',
 	'uses' => 'UsersController@login'
 	]);
+
