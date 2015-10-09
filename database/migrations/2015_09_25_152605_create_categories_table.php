@@ -17,6 +17,9 @@ class CreateCategoriesTable extends Migration
 
 
             $table->string('cat_name');
+            $table->string('img_url', 100);
+            $table->mediumText('cat_about');
+            $table->smallInteger('cat_position');
 
             $table->timestamps('created_at');
         });
