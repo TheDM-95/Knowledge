@@ -23,7 +23,16 @@ body{
 	margin-bottom:0;
 }
 
+#content .row .l4{
+	padding-left:0 !important;
+	padding-right:0 !important;
+}
+
 #content .shorter-box img{
+	height: 123px ;
+}
+
+#content .shorter-box .card-image{
 	height: 123px ;
 }
 
@@ -36,22 +45,41 @@ body{
 	height: 311px ;
 }
 
+#content .higher-box .card-image{
+	height: 311px ;
+}
+
 #content .card {
 	margin-bottom: 0;
 	margin-top:8px;
+	
 }
 
-#content .card.higher-box:hover #content .card .card-reveal{
-	display: block !important;
-    transform: translateY(-100%);
+#content .card img{
+	transform : scale(1);
+	-webkit-transition: all 0.5s ease-in-out 0s; /* For Safari 3.1 to 6.0 */
+    transition: all 0.5s ease-in-out 0s;
+}
 
+#content .card:hover img{
+	transform : scale(1.2);
 }
 
 #content .card .card-reveal{
-	background: rgba(192, 192, 192, 0.4); 
+	display: block ;
+    transform: translateY(-90%);
+	background: rgba(191, 192, 192, 0.5);
 	text-align: center;
 	color: #fff;
 	padding:4px;
+	-webkit-transition: all 0.5s ease-in-out 0s; /* For Safari 3.1 to 6.0 */
+    transition: all 0.5s ease-in-out 0s;
+	opacity:0;
+}
+
+#content .card .card-reveal:hover{
+	opacity: 1;
+	transform: translateY(-100%);
 }
 
 #content .card .card-reveal .card-title{
