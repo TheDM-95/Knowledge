@@ -32,7 +32,7 @@ body{
 
 
 .wrap-content .wrap-question{
-	width: 70%;
+	width: 60%;
 	height: 407px;
 	background: url('images/Terra_globe_icon.png') no-repeat center;
 	background-size: contain;
@@ -60,7 +60,7 @@ body{
 
 .wrap-content .title{
 	position: absolute;
-	bottom: 0;
+	bottom: 30;
 	left: 30%;
 	width: 40%;
 	background-color: #0090DB;
