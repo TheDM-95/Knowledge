@@ -35,21 +35,10 @@
 @stop
 @section('body.js')
 	<script type="text/javascript">
-        var  app = angular.module('QuizApp',[]);
-        app.controller('QuizCtrl',function($scope){
-           var   database =  [ {
-                  questions : 'Did you do that ?',
-                  kind :'mul-choise',
-                  answers : [{choise: 'A', ans : 'yes, i did' },{choise: 'B', ans : 'no, i did not'}],
-                  correct : 'A' 
-                } ,
-                {
-                  questions : 'How did you know ?',
-                   kind : 'not-mul-choise',
-                  correct: 'ooh' 
-                }
-            ];
-             $scope.data = database;
+        var  app = angular.module('QuizApp',['firebase']);
+        app.controller('QuizCtrl',function($scope,$firebaseArray){
+           var  ref = new Firebase('https://quizapp0.firebaseio.com/questions');
+             $scope.data = $firebaseArray(ref);
              var _score = 0, check = 0;
              $scope.isShow = false;
              var question_1 = 0, answer_1 = 0;
