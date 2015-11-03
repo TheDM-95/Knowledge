@@ -14,7 +14,7 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('question_id');
+            $table->increments('id');
             $table->integer('cat_id');
 
             $table->text('content');

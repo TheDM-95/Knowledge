@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Question;
+use DB;
+use Response;
 
 class QuestionsController extends Controller
 {
@@ -13,9 +16,9 @@ class QuestionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function check()
     {
-        //
+        
     }
 
     /**
@@ -25,7 +28,7 @@ class QuestionsController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -45,9 +48,15 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function getquestion($cat_id)
+    {        
+        $questions = DB::table('questions') 
+                        -> join('answers', 'answers.question_id', '=', 'questions.id') 
+                        -> select('cat_id', 'question_id', 'type', 'content', 'answers.id', 'answer', 'is_correct')
+                        -> where('cat_id', '=', $cat_id)
+                        -> limit(20)->get();
+        return Response::json($questions); 
+      //  return redirect()->route('pages.index');
     }
 
     /**
