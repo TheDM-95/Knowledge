@@ -77,6 +77,7 @@ app.controller('CategoryController', ['$scope', 'category', '$http', '$location'
 
     $scope.question = [];  
     $scope.summit = function(q, typeQuestion){
+
         if (typeQuestion != "3")  {
             for (var i=0; i<4; i++) {
               $scope.check_answer[q] &= $scope.data[$scope.pos[q] + i].is_correct == ans[i];
@@ -92,9 +93,10 @@ app.controller('CategoryController', ['$scope', 'category', '$http', '$location'
         $scope.question.push({
           user_id   : $scope.Id,
           question_id: $scope.data[$scope.pos[q]].question_id,
+          cat_id     : $scope.data[$scope.pos[q]].cat_id,
           is_correct   : $scope.check_answer[q]
         });
-        //alert($scope.question[$scope.question.length-1].question_id);
+        //alert($scope.question[$scope.question.length-1].is_correct);
 
         check++;
         ans[0] = ans[1] = ans[2] = ans[3] = 0;
@@ -105,34 +107,35 @@ app.controller('CategoryController', ['$scope', 'category', '$http', '$location'
           var datatoken = {'_token':CSRF_TOKEN};
 
           // update score for user
-          $http({
+        /*  $http({
               method: 'POST',
-              url:  '/postupdate',
+              url:  '/postupdateScore',
               headers: { 'Content-Type' : 'application/x-www-form-urlencoded'},
               data: 'id=' + $scope.Id + '&score=' + _score
           }).success(function(data){
-              alert('Your Score has been updated succesfull!');
+              //alert('Your Score has been updated succesfull!');
             })
             .error(function(data) {
-              alert('Something be wrong!');
-            }); 
+              alert('Post update be wrong!');
+            });  */
 
           //update information question, which this user has been answer
-          alert('sent');
+          //alert('sent');
           $http({
               method: 'POST',
-              url:  '/postupdatequestion',
+              url:  '/postupdateUserdetail',
               headers: { 'Content-Type' : 'application/json; charset=utf-8'},
               data: $scope.question
           }).success(function(data){
-              alert('This resquest has been updated succesfull!');
+              //alert(data);
+              //alert('This resquest has been updated succesfull!');
             })
             .error(function(data) {
-              alert('Something be wrong!');
+              alert(data);
             }); 
 
 
-          $window.location.href = '/';
+          //$window.location.href = '/';
         }
     }
    });
@@ -162,8 +165,18 @@ app.factory('user', ['$http', function($http) {
          });
 }]);
 
-app.controller('ProfileController', ['$scope', 'user', '$http', '$location', '$window', 
-  function($scope, user, $http, $location, $window, CSRF_TOKEN) {
+app.factory('userdetail', ['$http', function($http) {
+  return $http.get(window.location.href + '/getuserdetaildata')
+         .success(function(data) {
+           return data;
+         })
+         .error(function(data) {
+           return data;
+         });
+}]);
+
+app.controller('ProfileController', ['$scope', 'user', 'userdetail', '$http', '$location', '$window', 
+  function($scope, user, userdetail, $http, $location, $window, CSRF_TOKEN) {
   user.success(function(data) {
       $scope.user = data[0];
       $scope.text_descript = "text-success";
@@ -173,9 +186,60 @@ app.controller('ProfileController', ['$scope', 'user', '$http', '$location', '$w
 
       $scope.changeEmail = function() {
         $scope.inputEmail = !$scope.inputEmail;
+        $scope.changeemail = $scope.user.email;
       }
       $scope.changepass = function(){
         $scope.changePassword = !$scope.changePassword;
       }
+
+
+      var datatoken = {'_token':CSRF_TOKEN};
+      $scope.editEmail = function (){
+        //alert('email=' + $scope.changeemail);
+        $http({
+              method: 'post',
+              url:  '/checkuserbyemail',
+              headers: { 'Content-Type' : 'application/x-www-form-urlencoded'},
+              data: 'email=' + $scope.changeemail
+          })
+          .success(function(data) {
+            //$scope.emailAvailable = data;
+            alert(data);
+          })
+          .error(function(data) {
+            alert(data);
+          });
+      }
+    });
+  userdetail.success(function(data) {
+    $scope.userdetail = data;
+    //alert($scope.userdetail.length);
+    if ($scope.userdetail.length % 2) {
+      $scope.userdetail.push({
+        "score":'',"id":'',"cat_name":''
+      })
+    }
+    });
+  }]);
+
+
+//Scoretable
+
+
+app.factory('score', ['$http', function($http) {
+  return $http.get(window.location.href + '/getdata')
+         .success(function(data) {
+           return data;
+         })
+         .error(function(data) {
+           return data;
+         });
+}]);
+
+app.controller('ScorestatusController', ['$scope', 'score', '$http', '$location', '$window', 
+  function($scope, score, $http, $location, $window, CSRF_TOKEN) {
+  score.success(function(data) {
+    $scope.score = data.score;
+    $scope.data = data.userdetail;
     });
   }]);

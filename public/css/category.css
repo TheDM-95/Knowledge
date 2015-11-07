@@ -1,4 +1,4 @@
-{
+*{
   margin: 0;
   padding: 0;
 }
@@ -7,6 +7,7 @@ html {
    // height: 100%;  
     width: 100%;
     height: 100%;
+	background-color:#03a9f4;
 }
 
 body{
@@ -14,14 +15,13 @@ body{
     margin: 0 auto;
 }
 
-
 .wrap-content{
-	height:665px;
+	height: 680px;
 	background-color: #03a9f4;
 }
 
 .wrap-content .back{
-	padding-top: 30px;
+	padding-top: 50px;
 	padding-left:50px;
 }
 
@@ -29,6 +29,7 @@ body{
 	color: #fff;
 	font-size: 30px;
 }
+
 
 .wrap-content .wrap-question{
 	width: 60%;
@@ -38,6 +39,21 @@ body{
 	margin: auto;
 }
 
+.wrap-content .wrap-question .scorecard{
+	background-color: #fff;
+}
+
+.wrap-content .wrap-question .scorecard .single-question{
+	padding: 20px;
+}
+
+.wrap-content .wrap-question .scorecard .single-question .fa-check{
+	color: green;
+}
+
+.wrap-content .wrap-question .scorecard .single-question .fa-times{
+	color: red;
+}
 
 .wrap-content .wrap-question .questions{
 	transform: translateX(-100%);
@@ -52,16 +68,37 @@ body{
 	font-weight: bold;
 }
 
+.wrap-content .wrap-question .question-title h2{
+	margin: 0;
+}
+
+.wrap-content .wrap-question .question-title .fa{
+	background-color: #00438E;
+}
+
 .wrap-content .wrap-question .question-content{
 	padding: 30px;
-	height: 345px;
+	height: auto;
 	background-color: #fff;
 }
 
+.wrap-content .wrap-question .question-content button{
+	background-color: #0090DB ;
+}
+
+.wrap-content .wrap-question .question-content button:focus{
+	background-color: #00438E;
+}
+
+.wrap-content .wrap-question .question-content h4{
+	margin: 10px 0;
+}
+
 .wrap-content .title{
-	position: relative;
-	top: 120px;
-	width: 60%;
+	position: absolute;
+	bottom: 0;
+	left: 30%;
+	width: 40%;
 	background-color: #0090DB;
 	padding: 20px;
 	color: #fff;
@@ -77,15 +114,14 @@ body{
 	background-color: #00438E;
 }
 
-.wrap-content .wrap-progress{	
-	border-radius: 5px 5px 0px 0px;
-	width: 44%;
+.wrap-content .wrap-progress{
+	width: 40%;
 	background-color: #fff;
 	font-size:16px;
 	margin: auto;
 	position:absolute;
 	bottom:0;
-	left: 28%;
+	left: 30%;
 	height: 80px;
 	box-shadow: 0px 10px 21px 1px gray;
 	opacity:0;
@@ -95,7 +131,6 @@ body{
 .wrap-content .wrap-progress .progress{
 	background-color: #0090DB;
 	margin-top:0;
-	height: 10px;
 }
 
 .wrap-content .wrap-progress .progress .determinate{

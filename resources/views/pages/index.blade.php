@@ -27,9 +27,20 @@
                                 <img class="activator" src="/@{{cat.img_url}}">
                             </div>
                             <div class="card-content red">
-                                <p><a href="/category/@{{cat.id}}">
-                                    <span class="card-title">@{{ cat.cat_name }}<i class="fa fa-arrow-circle-right right"></i></span>
-                                </a></p>
+                                <p>
+                                    <a ng-if="cat.cat_name != 'Profile'" href="/category/@{{cat.id}}">
+                                        <span class="card-title">@{{ cat.cat_name }}<i class="fa fa-arrow-circle-right right"></i></span>
+                                    </a>
+                                    <a ng-if="cat.cat_name == 'Profile'" 
+                                        <?php                                            
+                                            if (Auth::check()) {
+                                                $user = Auth::user();
+                                                echo "href= '/users/" . $user->user_name ."'";
+                                            }
+                                        ?> >
+                                        <span class="card-title">@{{ cat.cat_name }}<i class="fa fa-arrow-circle-right right"></i></span>
+                                    </a>
+                                </p>
                             </div>
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">@{{ cat.cat_name }}</span>
@@ -133,6 +144,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col l4 m6 s12">
                 <div class="row">
                     <div class="col l6 s12">
@@ -188,6 +200,8 @@
                     </div>
                 </div>
             </div>
+
+            
             <div class="col l4 m6 s12">
                 <div class="row">
                     <div class="col s12">
@@ -245,7 +259,6 @@
             </div>
       </div>
 
-	  </div>
 	</div>
 @stop
 

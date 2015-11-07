@@ -10,7 +10,7 @@
     <style>
         table{
             margin-top:70px;
-            height:600px;
+            min-height:100px;
             background-color:#FFF;
         }
         .glyphicon{
@@ -26,7 +26,7 @@
             background-color:#0CF;
         }
 
-        td{
+        td, tr{
             text-align:center;
         }
         body{
@@ -41,8 +41,8 @@
             <div class="col-md-3">
                 <a href="/"><h3><span class="glyphicon glyphicon-arrow-left"></span></h3></a>
             </div>
-            <div class="col-md-5">
-                <table class=" table table-hover table-responsive ">
+            <div class="col-md-5  table-responsive">
+                <table class=" table table-hover ">
                     <thead>
                         <tr>
                             <th colspan="4"><h3>Leaderboard</h3></th>
@@ -52,10 +52,11 @@
 
                     @foreach($users as $u)
                         <tr>
-                            <td>{{$pos++}}</td>
-                            <td><img class="img-circle"  src="{{ $u->avatar }}" /></td>
-                            <td>{{ $u->name}}</td>
-                            <td>{{ $u->score }}</td>
+                            <td width="10%">{{$pos++}}</td>
+                            <td width="20%"><img class="img-circle"  src="{{ $u->avatar }}" /></td>
+                            <td width="20%"><a href= "{{ route('user.show', $u->user_name) }}"> {{$u->name}} </a> </td>
+                            <td width="50%">{{ $u->score }}</td>
+                                
                         </tr>
                     @endforeach
 

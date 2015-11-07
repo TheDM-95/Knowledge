@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use Auth;
 use Response;
+use Validator;
 
 
 class UsersController extends Controller
@@ -65,9 +67,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function checkuser($username, $email) {    
+        $user = User::where('email', $email)->first();
+        return  (count($user)==0) || ($user->user_name == $username);
+    }
+
     public function edit($user_name, Request $request)
     {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $this->checkuser($user_name, $request->input('email'))) {
             $user = User::where('user_name', '=', $user_name);
             $user->update([
                 'name' => $request->input('name'),
@@ -93,9 +101,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updatepassword(Request $request, $email)
     {
-        //
+        if (!$request->isMethod('post')) return redirect()-> route('pages.index'); 
+        $password = $request->input('oldpassword');
+        $newpassword = $request->input('newpassword');
+
+        if (Auth::attempt(['email'=>$email, 'password'=>$password])) {
+            $user = User::where('email', $email);
+            $user->update([
+                'password' => bcrypt($newpassword)
+                ]);
+        }
+
+        return Response::json([$password, $newpassword]);
     }
 
     public function updateScore(Request $request, $id, $score) {
@@ -118,7 +137,7 @@ class UsersController extends Controller
             $id = $request->input('id');
             $score = $request->input('score');
 
-            $user = User::find(1); //where('email', '=', $email);
+            $user = User::find($id); //where('email', '=', $email);
             $user->update([
                 'score' => $user->score + $score
                 ]);          
@@ -126,6 +145,13 @@ class UsersController extends Controller
         }
        // return Response::json($user->score);
         return redirect()-> route('pages.index'); 
+    }
+
+    public function checkbyemail(Request $request, $user_name) {
+        if ($request->isMethod('POST')) {
+            $check = $this->checkuser($user_name, $request->input('email'));
+            return Response::json($check);
+        }
     }
 
     /**

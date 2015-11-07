@@ -17,7 +17,8 @@ class CreateUserdetailsTable extends Migration
             $table->increments('id');
 
             $table->integer('user_id');
-            $table->integer('question_id');            
+            $table->integer('question_id');    
+            $table->integer('cat_id');          
             $table->boolean('is_correct');
 
             $table->timestamps();

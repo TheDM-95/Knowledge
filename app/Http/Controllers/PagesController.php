@@ -27,12 +27,18 @@ class PagesController extends Controller
     public function leaderboard()
     {
         $pos = 1;
-        $users = User::select('name', 'avatar', 'score') -> orderBy('score', 'desc') -> paginate(10);
+        $users = User::select('name', 'user_name', 'avatar', 'score') -> orderBy('score', 'desc') -> paginate(10);
         return view('pages.leaderboard', ['users' => $users, 'pos' => $pos]);
     }
+
     public function category($id)
     {
-        $questions = Question::where('cat_id', '=', $id)->get()->toJson();
-        return view('pages.category') -> with('data', $questions);
+        //$questions = Question::where('cat_id', '=', $id)->get()->toJson();
+        return view('pages.category');// -> with('data', $questions);
+    }
+
+    public function test($value)
+    {
+        echo $value;
     }
 }

@@ -9,24 +9,35 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
   	<script src="/js/bootstrap.min.js">  </script>
+  	<style>
+  		body {
+  			 background:#FAFAFA;
+  		}
+  		.back{
+			padding-top: 20px;
+			padding-left:20px;
+		}
+	</style>
+
   @stop
 
 
 @section("body.content")
 
-<div class="container" ng-controller='ProfileController'>
+<div class="container" ng-controller='ProfileController' style = "background: #FFFFFF">
+
+      	<div class="back">
+        	<a href="{{ route('pages.index') }}">
+          		<!--<i class="fa fa-arrow-left"> </i> -->
+      			<h4><span class="glyphicon glyphicon-arrow-left"></span> </h4>
+      		</a>
+    	</div>
+
 <h2 class="text-center">Profile</h2>
 
 <div class="row">
 	<div class="col-md-12">
 		<?php  		
-			if (Auth::attempt(['email' => 'yz@gmail.com', 'password'=>"$2y$10$387jPSIvukC4w0Y4sBgq2uddH9cxlp1sP.B2aE43B76urflmA9i3y"], false)) {
-				echo "<p> OK </p>";
-			}
-
-			echo bcrypt('123456') . "<br />";
-			echo "$2y$10$387jPSIvukC4w0Y4sBgq2uddH9cxlp1sP.B2aE43B76urflmA9i3y";
-
 	        if (Auth::check()) {
 	            $user = Auth::user();
 				echo "<div data-ng-init = user_name='" . $user->user_name . "' > </div>";			
@@ -37,10 +48,8 @@
 	        }
 		?>
 
-		<form class="form-horizontal" action="/users/{{$user->user_name}}/editaccount/" method="post" enctype="multipart/form-data">
-
+		<form class="form-horizontal" action="/users/{{$user->user_name}}/editaccount/" method="post" enctype="multipart/form-data" name='userform'>
     	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-		
 		<div class="row">
 			<div class="col-md-6 ">
 				<h3 class="text-center">Personal information</h3>
@@ -48,8 +57,8 @@
 				<br/>
 				
 				<div class="form-group">
-					<label for="inputUsername" class="col-sm-3 control-label">Username</label>
-					<div class="col-sm-9"><p class="form-control-static">@{{user.name}}</p></div>
+					<label for="inputScore" class="col-sm-3 control-label">Score</label>
+					<div class="col-sm-9"><p class="form-control-static">@{{user.score}}</p></div>
 				</div>
 				<div class="form-group">
 					<label for="inputEmail" class="col-sm-3 control-label">Email</label>
@@ -61,8 +70,7 @@
 								<a id="email-change-button" style="cursor: pointer;" class="btn-link" ng-click="changeEmail()">change</a>
 							</p>
 
-							<input class="form-control" type="email" value="@{{user.email}}" name="email" ng-show = "inputEmail">
-							<span id="helpBlock" class="help-block" ng-show = "emailAvailable==false"> address is not available </span>
+							<input class="form-control" type="email" value="@{{changeemail}}" name="email" ng-show = "inputEmail" required/>
 														
 							<!-- &nbsp;&nbsp;<button type="button" class="btn btn-link">change</button> -->
 						</span>
@@ -107,21 +115,45 @@
 					
 					</div>
 				</div>
-								<div class="form-group">
+				<div class="form-group">
 					<label for="inputBirthYear" class="col-sm-3 control-label">Birthdate <span class="text-danger">*</span></label>
 					<div class="col-sm-3">
-						<input type="number" name="birthdate" value="@{{user.birthday}}" class="form-control" id="inputBirthYear" min="1900" max="2015" placeholder="Birth year" required/>
+						<input type="number" name="birthdate" value="@{{user.birthdate}}" class="form-control" id="inputBirthYear" min="1900" max="2015" placeholder="Birth year" required/>
 					</div>
 				</div>
 
 			</div>
 			
-						<div class="col-md-6">
+			<div class="col-md-6">
 				<h3 class="text-center">About me</h3>
 				<p>Tell us what you interested in...</p>
 				<textarea name="aboutme" class="form-control" id="inputAboutme" rows="7">
 					@{{user.aboutme}}
 				</textarea>
+
+				<h3 class="text-center">Information Problems</h3>
+
+				<table class="table table-condensed">
+					<tbody>
+						<tr ng-repeat = "detail in userdetail" ng-if="$index%2==0">
+							<td width="20%" align="left">
+								<a href="/status/@{{user_name}}/@{{userdetail[$index].id}}">@{{userdetail[$index].cat_name}}</a>					
+							</td>
+							<td width="20%" align="left">
+								<p>@{{userdetail[$index].score}} </p>							
+							</td>
+							<td width="20%" align="left"> </td>
+							<td width="20%" align="left">
+								<a href="/status/@{{user_name}}/@{{userdetail[$index+1].cat_name}}">@{{userdetail[$index+1].cat_name}}</a>
+							</td>
+							<td width="20%" align="left">
+								<p>@{{userdetail[$index + 1].score}} </p>								
+							</td>
+						</tr>
+
+
+					</tbody>
+				</table>
 			</div>
 		</div>
 		
@@ -377,9 +409,9 @@
 				</div>
 							            
 		            <div class="form-group">
-					<label for="inputInsitution" class="col-sm-3 control-label">Institution <span class="text-danger">*</span></label>
+					<label for="inputInsitution" class="col-sm-3 control-label">School<span class="text-danger">*</span></label>
 					<div class="col-sm-7">
-						<input name="institution" type="text" class="form-control" value="@{{user.institution}}" id="school"/>
+						<input name="institution" type="text" class="form-control" value="@{{user.institution}}" id="school" required/>
 					</div>
 				</div>
 		    </div>
@@ -396,7 +428,7 @@
 
 		<div class="row pull-right">
 		    <div class="col-xs-12">
-			 	<a id="password-change-link" class="btn btn-link" ng-click="changepass()">Change password</a> 
+			 	<a id="password-change-link" class="btn btn-link" ng-show= 'email==user.email' ng-click="changepass()">Change password</a> 
 			</div>
 		</div>
 		<div id="password-change-box" class="row" ng-show="changePassword">
@@ -410,15 +442,14 @@
                         </ul>
 
 				<form class="form-inline" action="/changepassword/{{$user->email}}" method="post" enctype="multipart/form-data">
-
     				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="form-group">
 						<label class="sr-only" for="inputPassword">Old password</label>
-						<input type="password" name="oldpassword" class="form-control" id="inputPassword" placeholder="Old Password" />
+						<input type="password" name="oldpassword" class="form-control" id="inputPassword" placeholder="Old Password">
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="inputPassword">New password</label>
-						<input type="password" name="newpassword" class="form-control" id="inputPassword" placeholder="New Password">
+						<input type="password" name="newpassword" class="form-control" id="newpassword" placeholder="New Password">
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="inputPasswordRe">Retype new password</label>
