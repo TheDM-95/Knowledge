@@ -27,10 +27,9 @@
 <div class="container" ng-controller='ProfileController' style = "background: #FFFFFF">
 
       	<div class="back">
-        	<a href="{{ route('pages.index') }}">
-          		<!--<i class="fa fa-arrow-left"> </i> -->
-      			<h4><span class="glyphicon glyphicon-arrow-left"></span> </h4>
-      		</a>
+      		<a href="{{ route('pages.index') }}">
+				<h2><i class="fa fa-arrow-left"> </i> <h2>
+			</a>
     	</div>
 
 <h2 class="text-center">Profile</h2>
@@ -431,31 +430,30 @@
 			 	<a id="password-change-link" class="btn btn-link" ng-show= 'email==user.email' ng-click="changepass()">Change password</a> 
 			</div>
 		</div>
+
 		<div id="password-change-box" class="row" ng-show="changePassword">
 			<div class="col-xs-8">
 				<h3 class="text-center">Change password</h3>
 
-                        <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                        <ul ng-repeat = "error in errors">
+                                <li class="text-danger">@{{ error }}</li>
                         </ul>
 
-				<form class="form-inline" action="/changepassword/{{$user->email}}" method="post" enctype="multipart/form-data">
+				<form class="form-inline"  enctype="multipart/form-data">
     				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="form-group">
 						<label class="sr-only" for="inputPassword">Old password</label>
-						<input type="password" name="oldpassword" class="form-control" id="inputPassword" placeholder="Old Password">
+						<input type="password" name="oldpassword" class="form-control" id="inputPassword" placeholder="Old Password" ng-model="user.oldpassword">
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="inputPassword">New password</label>
-						<input type="password" name="newpassword" class="form-control" id="newpassword" placeholder="New Password">
+						<input type="password" name="newpassword" class="form-control" id="newpassword" placeholder="New Password" ng-model="user.newpassword">
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="inputPasswordRe">Retype new password</label>
-						<input type="password" name="password_confirmation" class="form-control" id="inputPasswordRe" placeholder="Confirm new password">
+						<input type="password" name="newpassword_confirmation" class="form-control" id="inputPasswordRe" placeholder="Confirm new password" ng-model="user.newpassword_confirmation">
 					</div>
-					<button type="submit" class="btn btn-primary">Change</button>
+					<button type="submit" class="btn btn-primary" ng-click="updatepassword(user)">Change</button>
 				</form>
 			</div>
 		</div>

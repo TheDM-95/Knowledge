@@ -101,20 +101,46 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updatepassword(Request $request, $email)
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'oldpassword' => 'required|min:6',
+            'newpassword' => 'required|confirmed|min:6',
+        ]);
+    }
+
+    public function updatepassword(Request $request)
     {
         if (!$request->isMethod('post')) return redirect()-> route('pages.index'); 
-        $password = $request->input('oldpassword');
-        $newpassword = $request->input('newpassword');
+        $data = $request->json()->all();
 
-        if (Auth::attempt(['email'=>$email, 'password'=>$password])) {
-            $user = User::where('email', $email);
-            $user->update([
-                'password' => bcrypt($newpassword)
-                ]);
+        $email = $data['email'];
+        $password = $data['oldpassword'];
+        $newpassword = $data['newpassword'];
+        $confirmpassword = $data['newpassword_confirmation'];
+
+        $err = [];
+        if ($confirmpassword != $newpassword){
+            $err[] = 'The confirmation password do not match!';
+        }
+        elseif ($password == $newpassword){
+                $err[] = 'Your old password and new password must be different!';
+            }
+        else {
+            if (strlen($newpassword) < 6) $err[] = 'New password must be at least 6 character';
+            if (Auth::attempt(['email'=>$email, 'password'=>$password])) {
+                $user = User::where('email', $email);
+                $user->update([
+                    'password' => bcrypt($newpassword)
+                    ]);
+            }
+            else $err[] = 'Your old password incorrect!';
         }
 
-        return Response::json([$password, $newpassword]);
+        if (count($err)==0) $err[] = 'Your password has been updated successfull!';
+
+        return Response::json($err);
     }
 
     public function updateScore(Request $request, $id, $score) {

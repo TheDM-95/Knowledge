@@ -133,6 +133,11 @@ Route::group(['middleware' => 'auth'], function() {
 		'uses' => 'UsersController@updatepassword'
 		]);
 
+	post('/updatepassword', [
+		'as' => 'user.updatepassword',
+		'uses' => 'UsersController@updatepassword'
+		]);
+
 
 	post('/postupdateScore', [
 		'as' => 'users.postupdateScore',

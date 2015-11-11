@@ -12,14 +12,19 @@
                             if (Auth::check()) {
                                 $user = Auth::user();
                                 echo "<li><img width='60' height='60' src='/". $user->avatar."'  alt='' /> </li>". "<li><p>".$user->name ."</p> </li>";
+                                echo 
+                                    "<li>
+                                        <a href='".route('auth.logout')."'><i class='fa fa-sign-out'> Sign out</i></a>
+                                    </li>";
                             }
                             else {
                                 echo "<li><a href='" . route('auth.login') . "'> <i class='fa fa-user'> Login</i></a></li>";
+                                echo    
+                                    "<li>
+                                        <a href='".route('auth.register')."'><i class='fa fa-sign-on'> Sign on</i></a>
+                                    </li>";
                             }
                     ?>
-                    <li>
-                        <a href="{{route('auth.logout')}}"><i class="fa fa-sign-out"> Sign out</i></a>
-                    </li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="{{route('pages.index')}}">Homepage</a></li>

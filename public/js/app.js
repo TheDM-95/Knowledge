@@ -194,6 +194,25 @@ app.controller('ProfileController', ['$scope', 'user', 'userdetail', '$http', '$
 
 
       var datatoken = {'_token':CSRF_TOKEN};
+      $scope.updatepassword = function(user) {
+        $http({
+                method: 'post',
+                url:  '/updatepassword',
+                headers: { 'Content-Type' : 'application/json; charset=utf-8'},
+                data: user
+            })
+            .success(function(data) {
+              $scope.changepass;
+              $scope.errors = data;
+            })
+            .error(function(data) {
+              alert('Something does not work');
+              //$scope.errors = data;
+            });
+      }
+
+
+      var datatoken = {'_token':CSRF_TOKEN};
       $scope.editEmail = function (){
         //alert('email=' + $scope.changeemail);
         $http({
